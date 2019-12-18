@@ -1,0 +1,30 @@
+ $scope.fileRequestSeleted = function (file) {
+        if (file == null) return;
+        $scope.requestApprovedFile = file; 
+        var params = {
+            file: $scope.requestApprovedFile,
+           
+        }
+
+        //  var root = "http://" + window.location.host + "/";
+        //var root = window.location.protocol + "//" + window.location.host + "/";
+        Upload.upload({
+            url: "http://localhost:51435/api/FileUpload/PostArtistImage",
+            data: params
+        }).then(function (resp) { 
+            console.log('resp', resp);
+           // alert(resp.data.Status);
+            if (resp.data.Status === 1) {
+
+                $scope.returnFileURL = resp.data.Data.FileURL;
+                alert("Upload Success");
+            }
+
+             
+        }, function (resp) {
+            alert("ไม่สามารถ upload ไฟล์ได้ในขณะนี้!");
+        }, function (evt) {
+            //var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    }
